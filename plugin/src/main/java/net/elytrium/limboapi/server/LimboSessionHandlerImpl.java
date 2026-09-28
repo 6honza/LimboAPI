@@ -25,6 +25,7 @@ import com.velocitypowered.proxy.connection.client.AuthSessionHandler;
 import com.velocitypowered.proxy.connection.client.ClientPlaySessionHandler;
 import com.velocitypowered.proxy.connection.client.ConnectedPlayer;
 import com.velocitypowered.proxy.network.Connections;
+import com.velocitypowered.proxy.network.netty.VelocityReadTimeoutHandler;
 import com.velocitypowered.proxy.protocol.MinecraftPacket;
 import com.velocitypowered.proxy.protocol.ProtocolUtils;
 import com.velocitypowered.proxy.protocol.StateRegistry;
@@ -43,7 +44,6 @@ import com.velocitypowered.proxy.protocol.util.PluginMessageUtil;
 import com.velocitypowered.proxy.util.except.QuietDecoderException;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelPipeline;
-import io.netty.handler.timeout.ReadTimeoutHandler;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -457,7 +457,7 @@ public class LimboSessionHandlerImpl implements MinecraftSessionHandler {
 
     if (pipeline.get(LimboProtocol.READ_TIMEOUT) != null) {
       pipeline.replace(LimboProtocol.READ_TIMEOUT, Connections.READ_TIMEOUT,
-          new ReadTimeoutHandler(this.plugin.getServer().getConfiguration().getReadTimeout(), TimeUnit.MILLISECONDS)
+          new VelocityReadTimeoutHandler(this.plugin.getServer().getConfiguration().getReadTimeout(), TimeUnit.MILLISECONDS)
       );
     }
   }

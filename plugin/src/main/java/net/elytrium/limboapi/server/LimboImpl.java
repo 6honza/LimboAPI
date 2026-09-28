@@ -39,6 +39,7 @@ import com.velocitypowered.proxy.connection.client.ClientPlaySessionHandler;
 import com.velocitypowered.proxy.connection.client.ConnectedPlayer;
 import com.velocitypowered.proxy.connection.registry.DimensionInfo;
 import com.velocitypowered.proxy.network.Connections;
+import com.velocitypowered.proxy.network.netty.VelocityReadTimeoutHandler;
 import com.velocitypowered.proxy.protocol.MinecraftPacket;
 import com.velocitypowered.proxy.protocol.ProtocolUtils;
 import com.velocitypowered.proxy.protocol.StateRegistry;
@@ -62,7 +63,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPipeline;
-import io.netty.handler.timeout.ReadTimeoutHandler;
 import it.unimi.dsi.fastutil.Pair;
 import java.io.IOException;
 import java.io.InputStream;
@@ -487,7 +487,7 @@ public class LimboImpl implements Limbo {
       // requests don't have time to be processed, and an error occurs that "minecraft-encoder" doesn't exist.
       if (pipeline.get(Connections.MINECRAFT_ENCODER) != null) {
         if (this.readTimeout != null) {
-          pipeline.replace(Connections.READ_TIMEOUT, LimboProtocol.READ_TIMEOUT, new ReadTimeoutHandler(this.readTimeout, TimeUnit.MILLISECONDS));
+          pipeline.replace(Connections.READ_TIMEOUT, LimboProtocol.READ_TIMEOUT, new VelocityReadTimeoutHandler(this.readTimeout, TimeUnit.MILLISECONDS));
         }
 
         boolean compressionEnabled = false;
