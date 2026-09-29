@@ -55,6 +55,9 @@ public class UpsertPlayerInfoHook extends UpsertPlayerInfoPacket {
       try {
         ConnectedPlayer player = ((VelocityServerConnection) SERVER_CONN_FIELD.invokeExact((BackendPlaySessionHandler) handler)).getPlayer();
         UUID initialID = this.plugin.getInitialID(player);
+        if (initialID == null) {
+          return super.handle(handler);
+        }
         List<Entry> items = this.getEntries();
 
         for (int i = 0; i < items.size(); ++i) {
