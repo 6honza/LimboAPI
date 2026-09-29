@@ -57,7 +57,9 @@ public class LegacyPlayerListItemHook extends LegacyPlayerListItemPacket {
           Item item = items.get(i);
           ConnectedPlayer player = ((VelocityServerConnection) SERVER_CONN_FIELD.invokeExact((BackendPlaySessionHandler) handler)).getPlayer();
           UUID initialID = this.plugin.getInitialID(player);
-
+          if (initialID == null) {
+            return super.handle(handler);
+          }
           if (player.getUniqueId().equals(item.getUuid())) {
             items.set(i, new Item(initialID)
                 .setDisplayName(item.getDisplayName())
