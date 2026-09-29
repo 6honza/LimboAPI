@@ -55,8 +55,8 @@ public class RemovePlayerInfoHook extends RemovePlayerInfoPacket {
         ConnectedPlayer player = ((VelocityServerConnection) SERVER_CONN_FIELD.invokeExact((BackendPlaySessionHandler) handler)).getPlayer();
         UUID initialID = this.plugin.getInitialID(player);
         if (initialID == null) {
-  return super.handle(handler);
-}
+          return super.handle(handler);
+        }
         if (this.getProfilesToRemove() instanceof List<UUID> uuids) {
           for (int i = 0; i < uuids.size(); i++) {
             if (player.getUniqueId().equals(uuids.get(i))) {
